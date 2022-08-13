@@ -63,12 +63,12 @@ const CURSOR_LEFT_MARGIN = 5;
 const CURSOR_WIDTH = 3;
 
 class Locator {
-  osmd: InternalOSMD;
+  osmd: SmoothCursorOSMD;
   timeStampOfNextCursor?: number;
   time?: number;
   cursorSnapshotList: CursorSnapshot[];
 
-  constructor(osmd: InternalOSMD) {
+  constructor(osmd: SmoothCursorOSMD) {
     this.osmd = osmd;
     this.cursorSnapshotList = this.createCursorSnapshot(osmd);
   }
@@ -77,7 +77,7 @@ class Locator {
     return 60;
   }
 
-  private createCursorSnapshot(osmd: InternalOSMD): CursorSnapshot[] {
+  private createCursorSnapshot(osmd: SmoothCursorOSMD): CursorSnapshot[] {
     osmd.cursor.reset();
 
     let iterator = osmd.cursor.Iterator;
@@ -191,7 +191,7 @@ class Locator {
   }
 }
 
-export class InternalOSMD extends OpenSheetMusicDisplay {
+export class SmoothCursorOSMD extends OpenSheetMusicDisplay {
   private slidingCursor?: MagicCursor;
   private locator?: Locator;
   private el: HTMLDivElement;
@@ -200,8 +200,8 @@ export class InternalOSMD extends OpenSheetMusicDisplay {
     el: HTMLDivElement,
     xmlData: string,
     options: IOSMDOptions
-  ): InternalOSMD {
-    const osmd = new InternalOSMD(el, options);
+  ): SmoothCursorOSMD {
+    const osmd = new SmoothCursorOSMD(el, options);
 
     osmd.load(xmlData).then(() => {
       osmd.render();
