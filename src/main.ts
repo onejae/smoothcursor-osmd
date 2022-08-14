@@ -196,23 +196,6 @@ export class SmoothCursorOSMD extends OpenSheetMusicDisplay {
   private locator?: Locator;
   private el: HTMLDivElement;
 
-  static createToRender(
-    el: HTMLDivElement,
-    xmlData: string,
-    options: IOSMDOptions
-  ): SmoothCursorOSMD {
-    const osmd = new SmoothCursorOSMD(el, options);
-
-    osmd.load(xmlData).then(() => {
-      osmd.render();
-      osmd.cursor.show();
-
-      osmd.locator = new Locator(osmd);
-      osmd.locator.init();
-    });
-
-    return osmd;
-  }
   constructor(el: HTMLDivElement, options: IOSMDOptions) {
     super(el, options);
 

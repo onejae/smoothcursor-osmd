@@ -7,6 +7,27 @@
   </head>
   <body>
     <div id="app"></div>
-    <script type="module" src="/src/main.ts"></script>
+    <!-- <script type="module" src="src/main.ts"></script> -->
+    <script type="module">
+      import { SmoothCursorOSMD } from "./src/main.ts";
+      import sampleData from "./blockvoicing.xml?raw";
+
+      const el = document.getElementById("app");
+      const osmd = new SmoothCursorOSMD(el, {
+        drawTitle: false,
+        drawComposer: false,
+        drawPartNames: false,
+        followCursor: true,
+        renderSingleHorizontalStaffline: false,
+        cursorsOptions: [
+          { type: 5, color: "#1689d2", alpha: 0.0, follow: true },
+        ],
+      });
+      osmd.loadXml(sampleData).then(() => {
+        osmd.render();
+        osmd.cursor.show();
+        osmd.initLocator();
+      });
+    </script>
   </body>
 </html>
