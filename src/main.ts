@@ -3,6 +3,7 @@ import {
   IOSMDOptions,
   Note,
   OpenSheetMusicDisplay,
+  TransposeCalculator,
 } from "opensheetmusicdisplay";
 
 class MagicCursor {
@@ -164,8 +165,8 @@ class Locator {
     let y = lastCursorSnapshot.y;
 
     while (i < this.cursorSnapshotList.length) {
-      if (this.cursorSnapshotList[i].time > time) {
-        if (i !== this.cursorSnapshotList.length - 1) {
+      if (this.cursorSnapshotList[i].time >= time) {
+        if (i !== this.cursorSnapshotList.length) {
           if (lastCursorSnapshot.y !== this.cursorSnapshotList[i].y) {
             x = lastCursorSnapshot.x;
             y = lastCursorSnapshot.y;
@@ -190,7 +191,7 @@ class Locator {
   }
 }
 
-export class SmoothCursorOSMD extends OpenSheetMusicDisplay {
+class SmoothCursorOSMD extends OpenSheetMusicDisplay {
   private slidingCursor?: MagicCursor;
   private locator?: Locator;
   private el: HTMLDivElement;
@@ -265,4 +266,4 @@ export class SmoothCursorOSMD extends OpenSheetMusicDisplay {
   }
 }
 
-export default { SmoothCursorOSMD };
+export default { SmoothCursorOSMD, TransposeCalculator };
