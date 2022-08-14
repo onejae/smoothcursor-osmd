@@ -17,8 +17,7 @@ class MagicCursor {
       this.cursorElement.style.backgroundColor = "rgba(255, 0, 0, 0.7)";
       this.cursorElement.style.position = "absolute";
       this.cursorElement.style.width = "3px";
-      this.cursorElement.style.height = "3px";
-      this.cursorElement.style.height = "100px";
+      this.cursorElement.style.height = "0px";
 
       el.firstElementChild?.appendChild(this.cursorElement);
     } catch (e) {
@@ -220,6 +219,7 @@ export class SmoothCursorOSMD extends OpenSheetMusicDisplay {
     super.render();
 
     this.slidingCursor = MagicCursor.createElementDepedentCursor(this.el);
+
     if (this.slidingCursor && this.locator) {
       const [newPositionX, newPositionY, width, height] =
         this.locator.getPositionByTime(0);
