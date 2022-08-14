@@ -7,13 +7,13 @@
   </head>
   <body>
     <div id="app"></div>
-    <!-- <script type="module" src="src/main.ts"></script> -->
+    <!-- <script src="dist/smoothcursorosmd.umd.cjs"></script> -->
     <script type="module">
-      import { SmoothCursorOSMD } from "./src/main.ts";
+      import smoothcursorosmd from "./src/main.ts";
       import sampleData from "./blockvoicing.xml?raw";
 
       const el = document.getElementById("app");
-      const osmd = new SmoothCursorOSMD(el, {
+      const osmd = new smoothcursorosmd.SmoothCursorOSMD(el, {
         drawTitle: false,
         drawComposer: false,
         drawPartNames: false,

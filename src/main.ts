@@ -264,3 +264,5 @@ export class SmoothCursorOSMD extends OpenSheetMusicDisplay {
     }
   }
 }
+
+export default { SmoothCursorOSMD };
