@@ -164,6 +164,8 @@ class Locator {
     let x = lastCursorSnapshot.x;
     let y = lastCursorSnapshot.y;
 
+    if (time === 0) time = 1;
+
     while (i < this.cursorSnapshotList.length) {
       if (this.cursorSnapshotList[i].time >= time) {
         if (i !== this.cursorSnapshotList.length) {
