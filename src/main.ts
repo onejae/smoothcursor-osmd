@@ -170,8 +170,8 @@ class Locator {
       if (this.cursorSnapshotList[i].time >= time) {
         if (i !== this.cursorSnapshotList.length) {
           if (lastCursorSnapshot.y !== this.cursorSnapshotList[i].y) {
-            x = lastCursorSnapshot.x;
-            y = lastCursorSnapshot.y;
+            x = this.cursorSnapshotList[i].x;
+            y = this.cursorSnapshotList[i].y;
           } else {
             x =
               lastCursorSnapshot.x +
@@ -193,15 +193,25 @@ class Locator {
   }
 }
 
+interface SmoothOSMDOptions extends IOSMDOptions {
+  paintNotesOnCursor: boolean;
+}
+
 class SmoothCursorOSMD extends OpenSheetMusicDisplay {
   private slidingCursor?: MagicCursor;
   private locator?: Locator;
   private el: HTMLDivElement;
+  private options: SmoothOSMDOptions;
 
-  constructor(el: HTMLDivElement, options: IOSMDOptions) {
+  constructor(el: HTMLDivElement, options: SmoothOSMDOptions) {
     super(el, options);
 
     this.el = el;
+    this.options = options;
+  }
+
+  getOptions(): SmoothOSMDOptions {
+    return this.options;
   }
 
   async loadXml(musicXmlData: string) {
@@ -257,7 +267,10 @@ class SmoothCursorOSMD extends OpenSheetMusicDisplay {
       if (this.locator.shouldMoveCursor(time)) {
         this.changeNoteColor(this.cursor.NotesUnderCursor(), "black");
         this.cursor.next();
-        this.changeNoteColor(this.cursor.NotesUnderCursor(), "#faa00f");
+
+        if (this.options.paintNotesOnCursor) {
+          this.changeNoteColor(this.cursor.NotesUnderCursor(), "#faa00f");
+        }
       }
 
       const [newPositionX, newPositionY, width, height] =
@@ -265,6 +278,15 @@ class SmoothCursorOSMD extends OpenSheetMusicDisplay {
 
       this.slidingCursor.moveTo(newPositionX, newPositionY, width, height);
     }
+  }
+
+  init(): void {
+    if (this.cursor) {
+      this.changeNoteColor(this.cursor.NotesUnderCursor(), "black");
+      this.cursor.reset();
+    }
+
+    this.updateCursorPosition(0);
   }
 }
 
