@@ -67,14 +67,23 @@ class Locator {
   timeStampOfNextCursor?: number;
   time?: number;
   cursorSnapshotList: CursorSnapshot[];
+  bpm: number;
 
   constructor(osmd: SmoothCursorOSMD) {
     this.osmd = osmd;
+    this.bpm = 100;
     this.cursorSnapshotList = this.createCursorSnapshot(osmd);
   }
 
   private getBPMAtMeasure(_measureIndex: number) {
-    return 60;
+    return this.bpm;
+  }
+
+  public setBpm(_bpm: number) {
+    this.bpm = _bpm;
+
+    // refactor needed? 
+    this.cursorSnapshotList = this.createCursorSnapshot(this.osmd);
   }
 
   private createCursorSnapshot(osmd: SmoothCursorOSMD): CursorSnapshot[] {
@@ -226,6 +235,10 @@ class SmoothCursorOSMD extends OpenSheetMusicDisplay {
   getCurrentCursorMeasure() {
     return this.cursor.VoicesUnderCursor()[0].ParentSourceStaffEntry
       .VerticalContainerParent.ParentMeasure;
+  }
+
+  setBpm(bpm: number) {
+    this.locator?.setBpm(bpm);
   }
 
   render() {
